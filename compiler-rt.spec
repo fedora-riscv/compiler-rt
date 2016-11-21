@@ -1,3 +1,8 @@
+%ifarch s390 s390x
+# only limited set of libs available on s390(x) and the existing ones (stats, ubsan) don't provide debuginfo
+%global debug_package %{nil}
+%endif
+
 Name:		compiler-rt
 Version:	3.9.1
 Release:	1%{?dist}
