@@ -1,6 +1,6 @@
 Name:		compiler-rt
-Version:	3.8.0
-Release:	2%{?dist}
+Version:	3.8.1
+Release:	1%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
@@ -60,6 +60,9 @@ cd _build
 %{_libdir}/clang/%{version}
 
 %changelog
+* Tue Jan 17 2017 Michael Cronenworth <mike@cchtml.com> - 3.8.1-1
+- compiler-rt 3.8.1
+
 * Mon May  2 2016 Tom Callaway <spot@fedoraproject.org> 3.8.0-2
 - make symlinks to where the linker thinks these libs are
 
