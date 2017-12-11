@@ -20,7 +20,6 @@ Source0:	http://llvm.org/releases/%{version}/%{name}-%{version}.src.tar.xz
 # cd llvm-5.0.0.src/lib/
 # tar -cJf Fuzzer-5.0.0.tar.xz Fuzzer/
 Source1: Fuzzer-5.0.0.tar.xz
-Patch1:	0001-Fix-AArch64-build-with-glibc-2.26.patch
 
 BuildRequires:	cmake
 BuildRequires:	python
@@ -95,9 +94,6 @@ cd _build
 %changelog
 * Fri Oct 13 2017 Tom Stellard <tstellar@redhat.com> - 5.0.0-1
 - 5.0.0 Release
-
-* Mon Sep 25 2017 Tom Stellard <tstellar@redhat.com> - 4.0.1-6
-- Fix AArch64 build with glibc 2.26
 
 * Tue Sep 12 2017 Tom Stellard <tstellar@redhat.com> - 4.0.1-5
 - Package libFuzzer
