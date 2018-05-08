@@ -4,8 +4,8 @@
 %endif
 
 Name:		compiler-rt
-Version:	5.0.1
-Release:	2%{?dist}
+Version:	5.0.2
+Release:	1%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
@@ -18,7 +18,7 @@ Source0:	http://llvm.org/releases/%{version}/%{name}-%{version}.src.tar.xz
 # tar -xJf llvm-5.0.1.src.tar.xz
 # cd llvm-5.0.1.src/lib/
 # tar -cJf Fuzzer-5.0.1.tar.xz Fuzzer/
-Source1: Fuzzer-5.0.1.tar.xz
+Source1: Fuzzer-5.0.2.tar.xz
 
 BuildRequires:	cmake
 BuildRequires:	python
@@ -90,6 +90,9 @@ cd _build
 %{_libdir}/clang/%{version}
 
 %changelog
+* Tue May 8 2018 Tom Stellard <tstellar@redhat.com> - 5.0.2-1
+- 5.0.2 Release
+
 * Wed Jan 17 2018 Tom Stellard <tstellar@redhat.com> - 5.0.1-2
 - Build libFuzzer with gcc
 
