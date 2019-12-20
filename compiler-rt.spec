@@ -9,7 +9,7 @@
 %global crt_srcdir compiler-rt-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
 Name:		compiler-rt
-Version:	9.0.0
+Version:	9.0.1
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
@@ -17,7 +17,8 @@ License:	NCSA or MIT
 URL:		http://llvm.org
 Source0:	http://%{?rc_ver:pre}releases.llvm.org/%{version}/%{?rc_ver:rc%{rc_ver}}/%{crt_srcdir}.tar.xz
 
-Patch0:		0001-PATCH-std-thread-copy.patch
+Patch0:		0001-std-thread-copy-fix.patch
+Patch1:		0001-Fix-sanitizer-common-build-with-glibc-2.31.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -35,7 +36,7 @@ code generation, sanitizer runtimes and profiling library for code
 instrumentation, and Blocks C language extension.
 
 %prep
-%autosetup -n %{crt_srcdir} -p1
+%autosetup -n %{crt_srcdir} -p2
 
 pathfix.py -i %{__python3} -pn .
 
@@ -116,6 +117,9 @@ fi
 %{_libdir}/clang/%{version}
 
 %changelog
+* Fri Dec 20 2019 Tom Stellard <tstellar@redhat.com> - 9.0.1-1
+- 9.0.1 Release
+
 * Thu Sep 19 2019 Tom Stellard <tstellar@redhat.com> - 9.0.0-1
 - 9.0.0 Release
 

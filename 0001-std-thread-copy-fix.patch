@@ -1,0 +1,43 @@
+From 45e85d0673a603618a4000c3839b0bd96c263762 Mon Sep 17 00:00:00 2001
+From: Tom Stellard <tstellar@redhat.com>
+Date: Fri, 20 Dec 2019 11:17:22 -0800
+Subject: [PATCH] std thread copy fix
+
+---
+ compiler-rt/lib/fuzzer/FuzzerDefs.h     | 6 ++++++
+ compiler-rt/lib/fuzzer/FuzzerDriver.cpp | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/compiler-rt/lib/fuzzer/FuzzerDefs.h b/compiler-rt/lib/fuzzer/FuzzerDefs.h
+index 320b37d..37c4b2c 100644
+--- a/compiler-rt/lib/fuzzer/FuzzerDefs.h
++++ b/compiler-rt/lib/fuzzer/FuzzerDefs.h
+@@ -183,6 +183,12 @@ template<typename T>
+ 
+       template<class Other>
+       struct rebind { typedef fuzzer_allocator<Other> other;  };
++
++      template< class U, class... Args >
++      void construct( U* p, Args&&... args ) {
++        std::allocator<T>::construct(p, std::forward<Args>(args)...);
++      }
++
+   };
+ 
+ template<typename T>
+diff --git a/compiler-rt/lib/fuzzer/FuzzerDriver.cpp b/compiler-rt/lib/fuzzer/FuzzerDriver.cpp
+index 54c7ff0..47cd7ab 100644
+--- a/compiler-rt/lib/fuzzer/FuzzerDriver.cpp
++++ b/compiler-rt/lib/fuzzer/FuzzerDriver.cpp
+@@ -264,7 +264,7 @@ static int RunInMultipleProcesses(const Vector<std::string> &Args,
+   std::thread Pulse(PulseThread);
+   Pulse.detach();
+   for (unsigned i = 0; i < NumWorkers; i++)
+-    V.push_back(std::thread(WorkerThread, std::ref(Cmd), &Counter, NumJobs, &HasErrors));
++    V.emplace_back(WorkerThread, std::ref(Cmd), &Counter, NumJobs, &HasErrors);
+   for (auto &T : V)
+     T.join();
+   return HasErrors ? 1 : 0;
+-- 
+1.8.3.1
+
