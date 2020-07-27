@@ -4,7 +4,7 @@
 %endif
 
 #%%global rc_ver 6
-%global baserelease 0
+%global baserelease 1
 
 %global crt_srcdir compiler-rt-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -15,7 +15,7 @@
 %global optflags %(echo %{optflags} -Dasm=__asm__)
 
 Name:		compiler-rt
-Version:	10.0.0
+Version:	10.0.1
 Release:	%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
@@ -113,6 +113,9 @@ popd
 %endif
 
 %changelog
+* Mon Jul 27 2020 sguelton@redhat.com - 10.0.0-1
+- 10.0.1
+
 * Fri Apr 3 2020 sguelton@redhat.com - 10.0.0-1
 - 10.0.0 final
 
