@@ -1,6 +1,6 @@
 
-%global rc_ver 1
-%global baserelease 0.1
+#%%global rc_ver 1
+%global baserelease 0.2
 
 %global crt_srcdir compiler-rt-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -113,6 +113,9 @@ popd
 %endif
 
 %changelog
+* Tue Oct 13 2020 sguelton@redhat.com - 11.0.0-0.2
+- llvm 11.0.0 - final release
+
 * Mon Aug 10 2020 Tom Stellard <tstellar@redhat.com> - 11.0.0-0.1.rc1
 - 11.0.0-rc1 Release
 
