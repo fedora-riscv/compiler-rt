@@ -1,5 +1,4 @@
-%global rc_ver 1
-%global baserelease 1
+#%%global rc_ver 5
 
 %global crt_srcdir compiler-rt-%{version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -10,8 +9,8 @@
 %global optflags %(echo %{optflags} -Dasm=__asm__)
 
 Name:		compiler-rt
-Version:	12.0.0
-Release:	%{?rc_ver:0.}%{baserelease}%{?rc_ver:.rc%{rc_ver}}%{?dist}
+Version:	12.0.0%{?rc_ver:~rc%{rc_ver}}
+Release:	1%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
@@ -20,7 +19,7 @@ Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{versio
 Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz.sig
 Source2:	tstellar-gpg-key.asc
 
-Patch0:		0001-PATCH-std-thread-copy.patch
+Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -44,7 +43,7 @@ instrumentation, and Blocks C language extension.
 
 %prep
 %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
-%autosetup -n %{crt_srcdir} -p1
+%autosetup -n %{crt_srcdir} -p2
 
 pathfix.py -i %{__python3} -pn lib/hwasan/scripts/hwasan_symbolize
 
@@ -110,6 +109,24 @@ popd
 %endif
 
 %changelog
+* Fri Apr 16 2021 Tom Stellard <tstellar@redhat.com> - 12.0.0-1
+- 12.0.0 Release
+
+* Thu Apr 08 2021 sguelton@redhat.com - 12.0.0-0.6.rc5
+- New upstream release candidate
+
+* Fri Apr 02 2021 sguelton@redhat.com - 12.0.0-0.5.rc4
+- New upstream release candidate
+
+* Thu Mar 11 2021 sguelton@redhat.com - 12.0.0-0.4.rc3
+- LLVM 12.0.0 rc3
+
+* Tue Mar 09 2021 sguelton@redhat.com - 12.0.0-0.3.rc2
+- rebuilt
+
+* Thu Feb 25 2021 Serge Guelton - 12.0.0-0.2.rc2
+- 12.0.0-rc2 release
+
 * Tue Feb 16 2021 Serge Guelton - 12.0.0-0.1.rc1
 - 12.0.0-rc1 release
 
