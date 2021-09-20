@@ -11,7 +11,7 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
@@ -99,8 +99,9 @@ done
 popd
 
 %check
-
+%if %{with check}
 #%%cmake_build --target check-compiler-rt
+%endif
 
 %files
 %license LICENSE.TXT
