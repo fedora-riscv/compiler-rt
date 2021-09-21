@@ -3,6 +3,13 @@
 %global compiler_rt_version 13.0.1
 %global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
 
+%if %{with snapshot_build}
+%undefine rc_ver
+%global llvm_snapshot_vers pre%{llvm_snapshot_yyyymmdd}.g%{llvm_snapshot_git_revision_short}
+%global crt_srcdir compiler-rt-%{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}.src
+%global compiler_rt_version %{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}
+%endif
+
 # see https://sourceware.org/bugzilla/show_bug.cgi?id=25271
 %global optflags %(echo %{optflags} -D_DEFAULT_SOURCE)
 
@@ -10,15 +17,19 @@
 %global optflags %(echo %{optflags} -Dasm=__asm__)
 
 Name:		compiler-rt
-Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}
+Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_vers:~%{llvm_snapshot_vers}}
 Release:	2%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
 URL:		http://llvm.org
+%if %{with snapshot_build}
+Source0:    https://github.com/kwk/llvm-project/releases/download/source-snapshot/compiler-rt-%{llvm_snapshot_yyyymmdd}.src.tar.xz
+%else
 Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz
 Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz.sig
 Source2:	tstellar-gpg-key.asc
+%endif
 
 Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
 Patch1:		0001-Fix-compiler-rt-arch-detection-for-ppc64le.patch
@@ -44,7 +55,9 @@ code generation, sanitizer runtimes and profiling library for code
 instrumentation, and Blocks C language extension.
 
 %prep
+%if %{without snapshot_build}
 %{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
+%endif
 %autosetup -n %{crt_srcdir} -p2
 
 %py3_shebang_fix lib/hwasan/scripts/hwasan_symbolize
@@ -54,6 +67,10 @@ instrumentation, and Blocks C language extension.
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DLLVM_CONFIG_PATH:FILEPATH=%{_bindir}/llvm-config-%{__isa_bits} \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
+	\
+%if %{with snapshot_build}
+	-DLLVM_VERSION_SUFFIX="%{llvm_snapshot_vers}" \
+%endif
 	\
 %if 0%{?__isa_bits} == 64
 	-DLLVM_LIBDIR_SUFFIX=64 \
@@ -113,6 +130,11 @@ popd
 %endif
 
 %changelog
+%if %{with snapshot_build}
+* %{lua: print(os.date("%a %b %d %Y"))} LLVM snapshot build bot
+- Snapshot build of %{version}
+%endif
+
 * Wed Jan 12 2022 Nikita Popov <npopov@redhat.com> - 13.0.1~rc1-1
 - Update to LLVM 13.0.1rc1
 
