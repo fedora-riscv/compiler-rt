@@ -24,7 +24,7 @@ Summary:	LLVM "compiler-rt" runtime libraries
 License:	NCSA or MIT
 URL:		http://llvm.org
 %if %{with snapshot_build}
-Source0:    https://github.com/kwk/llvm-project/releases/download/source-snapshot/compiler-rt-%{llvm_snapshot_yyyymmdd}.src.tar.xz
+Source0:    %{llvm_snapshot_source_prefix}compiler-rt-%{llvm_snapshot_yyyymmdd}.src.tar.xz
 %else
 Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz
 Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz.sig
