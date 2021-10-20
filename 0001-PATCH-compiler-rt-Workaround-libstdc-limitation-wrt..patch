@@ -1,7 +1,8 @@
-From b4b74761d06fe49b483b6187891e0e97f8ca8208 Mon Sep 17 00:00:00 2001
+From 862328ab603eb5388a6648fc396f5f093de2ad3d Mon Sep 17 00:00:00 2001
 From: serge-sans-paille <sguelton@redhat.com>
 Date: Thu, 25 Feb 2021 14:12:57 +0100
-Subject: [PATCH][compiler-rt] Workaround libstdc++ limitation wrt. thread copy
+Subject: [PATCH 1/2] [PATCH][compiler-rt] Workaround libstdc++ limitation wrt.
+ thread copy
 
 ---
  compiler-rt/lib/fuzzer/FuzzerDriver.cpp | 2 +-

@@ -33,6 +33,7 @@ Source2:	tstellar-gpg-key.asc
 
 Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
 Patch1:		0001-Fix-compiler-rt-arch-detection-for-ppc64le.patch
+Patch2:		0002-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
