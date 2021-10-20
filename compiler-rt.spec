@@ -42,6 +42,7 @@ BuildRequires:	python3
 # We need python3-devel for %%py3_shebang_fix
 BuildRequires:	python3-devel
 BuildRequires:	llvm-devel = %{version}
+BuildRequires:	llvm-cmake = %{version}
 
 # For gpg source verification
 BuildRequires:	gnupg2
