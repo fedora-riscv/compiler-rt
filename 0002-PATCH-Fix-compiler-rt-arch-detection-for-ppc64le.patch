@@ -1,17 +1,19 @@
-From 72191190adea8e861e9a383b83799e7472b80e30 Mon Sep 17 00:00:00 2001
-From: Tom Stellard <tstellar@redhat.com>
-Date: Thu, 23 Sep 2021 18:06:41 -0700
-Subject: [PATCH] Fix compiler-rt arch detection for ppc64le
+From 80c9ae6917fe31dbb4cbf983bf8a81c49f40c9e8 Mon Sep 17 00:00:00 2001
+From: Konrad Kleine <kkleine@redhat.com>
+Date: Wed, 20 Oct 2021 18:19:12 +0200
+Subject: [PATCH 2/3] [PATCH] Fix compiler-rt arch detection for ppc64le
 
+Original fix by Tom Stellard but not put in the streamline branch until
+know
 ---
  compiler-rt/cmake/base-config-ix.cmake | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/compiler-rt/cmake/base-config-ix.cmake b/compiler-rt/cmake/base-config-ix.cmake
-index c11342e68813..3ca9dc0f5515 100644
+index 8526252dc93a..a97165de955a 100644
 --- a/compiler-rt/cmake/base-config-ix.cmake
 +++ b/compiler-rt/cmake/base-config-ix.cmake
-@@ -204,7 +204,7 @@ macro(test_targets)
+@@ -210,7 +210,7 @@ macro(test_targets)
            test_target_arch(x86_64 "" "")
          endif()
        endif()
@@ -21,5 +23,5 @@ index c11342e68813..3ca9dc0f5515 100644
      elseif("${COMPILER_RT_DEFAULT_TARGET_ARCH}" MATCHES "powerpc")
        if(CMAKE_SYSTEM_NAME MATCHES "AIX")
 -- 
-2.27.0
+2.31.1
 

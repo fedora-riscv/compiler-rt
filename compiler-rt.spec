@@ -32,8 +32,8 @@ Source2:	tstellar-gpg-key.asc
 %endif
 
 Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
-Patch1:		0001-Fix-compiler-rt-arch-detection-for-ppc64le.patch
-Patch2:		0002-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
+Patch1:		0002-PATCH-Fix-compiler-rt-arch-detection-for-ppc64le.patch
+Patch2:		0003-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -43,7 +43,6 @@ BuildRequires:	python3
 # We need python3-devel for %%py3_shebang_fix
 BuildRequires:	python3-devel
 BuildRequires:	llvm-devel = %{version}
-BuildRequires:	llvm-cmake = %{version}
 
 # For gpg source verification
 BuildRequires:	gnupg2
