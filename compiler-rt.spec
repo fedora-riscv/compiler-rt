@@ -31,9 +31,8 @@ Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compil
 Source2:	tstellar-gpg-key.asc
 %endif
 
-Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
-Patch1:		0002-PATCH-Fix-compiler-rt-arch-detection-for-ppc64le.patch
-Patch2:		0003-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
+Patch0: 0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
+Patch1: 0002-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++

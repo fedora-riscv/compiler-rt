@@ -1,20 +1,20 @@
-From c0b5cf9e40eeaf58b7007583ed08e2db52d257c7 Mon Sep 17 00:00:00 2001
+From 97b887489706c3ecc6038c0cc803c0bd74c6a219 Mon Sep 17 00:00:00 2001
 From: Konrad Kleine <kkleine@redhat.com>
 Date: Wed, 20 Oct 2021 18:12:24 +0200
-Subject: [PATCH 3/3] Help compiler-rt find shared LLVM cmake files from
+Subject: [PATCH 2/2] Help compiler-rt find shared LLVM cmake files from
  llvm-cmake package
 
 Consume top-level cmake/Modules/* files from /usr/lib64/cmake/llvm or /usr/lib/cmake/llvm
 ---
- compiler-rt/CMakeLists.txt              | 2 ++
- compiler-rt/lib/builtins/CMakeLists.txt | 5 ++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ compiler-rt/CMakeLists.txt              | 4 ++++
+ compiler-rt/lib/builtins/CMakeLists.txt | 7 ++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/compiler-rt/CMakeLists.txt b/compiler-rt/CMakeLists.txt
-index 17d7e4ffbdeb..4ce3a2c78442 100644
+index aa14ceff495a..338430fe6107 100644
 --- a/compiler-rt/CMakeLists.txt
 +++ b/compiler-rt/CMakeLists.txt
-@@ -12,12 +12,14 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR COMPILER_RT_STANDALONE
+@@ -12,10 +12,14 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR OR COMPILER_RT_STANDALONE
    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
  endif()
  
@@ -23,28 +23,28 @@ index 17d7e4ffbdeb..4ce3a2c78442 100644
  list(INSERT CMAKE_MODULE_PATH 0
    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
-   "${CMAKE_CURRENT_SOURCE_DIR}/../cmake"
-   "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules"
-+  "/usr/${CMAKE_INSTALL_FULL_LIBDIR}/cmake/llvm"
++  "${CMAKE_CURRENT_SOURCE_DIR}/../cmake"
++  "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules"
++  "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/llvm"
    )
  
  if(CMAKE_CONFIGURATION_TYPES)
 diff --git a/compiler-rt/lib/builtins/CMakeLists.txt b/compiler-rt/lib/builtins/CMakeLists.txt
-index 971e94407a2c..3391f4ad1b57 100644
+index 116517ca9e7d..297fa86a9b92 100644
 --- a/compiler-rt/lib/builtins/CMakeLists.txt
 +++ b/compiler-rt/lib/builtins/CMakeLists.txt
-@@ -9,11 +9,14 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+@@ -9,9 +9,14 @@ if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
    project(CompilerRTBuiltins C ASM)
    set(COMPILER_RT_STANDALONE_BUILD TRUE)
    set(COMPILER_RT_BUILTINS_STANDALONE_BUILD TRUE)
 +  include(GNUInstallDirs)
    list(INSERT CMAKE_MODULE_PATH 0
      "${CMAKE_SOURCE_DIR}/../../cmake"
-     "${CMAKE_SOURCE_DIR}/../../cmake/Modules"
-     "${CMAKE_SOURCE_DIR}/../../../cmake"
--    "${CMAKE_SOURCE_DIR}/../../../cmake/Modules")
+-    "${CMAKE_SOURCE_DIR}/../../cmake/Modules")
++    "${CMAKE_SOURCE_DIR}/../../cmake/Modules"
++    "${CMAKE_SOURCE_DIR}/../../../cmake"
 +    "${CMAKE_SOURCE_DIR}/../../../cmake/Modules"
-+    "/usr/${CMAKE_INSTALL_FULL_LIBDIR}/cmake/llvm"
++    "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/llvm"
 +  )
    include(base-config-ix)
    include(CompilerRTUtils)
