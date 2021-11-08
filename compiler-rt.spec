@@ -32,7 +32,6 @@ Source2:	tstellar-gpg-key.asc
 %endif
 
 Patch0: 0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
-Patch1: 0002-Help-compiler-rt-find-shared-LLVM-cmake-files-from-l.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -67,6 +66,7 @@ instrumentation, and Blocks C language extension.
 %cmake	-GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DLLVM_CONFIG_PATH:FILEPATH=%{_bindir}/llvm-config-%{__isa_bits} \
+	-DCMAKE_MODULE_PATH=%{_libdir}/cmake/llvm/ \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	\
 %if %{with snapshot_build}
