@@ -5,7 +5,6 @@
 
 %if %{with snapshot_build}
 %undefine rc_ver
-%global llvm_snapshot_vers pre%{llvm_snapshot_yyyymmdd}.g%{llvm_snapshot_git_revision_short}
 %global crt_srcdir compiler-rt-%{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}.src
 %global compiler_rt_version %{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}
 %endif
@@ -17,7 +16,7 @@
 %global optflags %(echo %{optflags} -Dasm=__asm__)
 
 Name:		compiler-rt
-Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_vers:~%{llvm_snapshot_vers}}
+Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_version_suffix:~%{llvm_snapshot_version_suffix}}
 Release:	2%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
@@ -70,7 +69,7 @@ instrumentation, and Blocks C language extension.
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	\
 %if %{with snapshot_build}
-	-DLLVM_VERSION_SUFFIX="%{llvm_snapshot_vers}" \
+	-DLLVM_VERSION_SUFFIX="%{llvm_snapshot_version_suffix}" \
 %endif
 	\
 %if 0%{?__isa_bits} == 64
