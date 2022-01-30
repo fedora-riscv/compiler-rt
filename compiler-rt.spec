@@ -62,6 +62,9 @@ instrumentation, and Blocks C language extension.
 %py3_shebang_fix lib/hwasan/scripts/hwasan_symbolize
 
 %build
+# Test if we can default DWARF4 instead of 5
+%global optflags %(echo %{optflags} " -gdwarf-4 ")
+
 %cmake	-GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
 	-DLLVM_CONFIG_PATH:FILEPATH=%{_bindir}/llvm-config-%{__isa_bits} \
