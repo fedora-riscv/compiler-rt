@@ -40,7 +40,6 @@ BuildRequires:	python3
 # We need python3-devel for %%py3_shebang_fix
 BuildRequires:	python3-devel
 BuildRequires:	llvm-devel = %{version}
-BuildRequires:	llvm-cmake-devel = %{version}
 
 # For gpg source verification
 BuildRequires:	gnupg2
@@ -64,6 +63,8 @@ instrumentation, and Blocks C language extension.
 %build
 # Test if we can default DWARF4 instead of 5
 %global optflags %(echo %{optflags} " -gdwarf-4 ")
+
+rm -rfv ../cmake
 
 %cmake	-GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
