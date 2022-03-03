@@ -1,4 +1,4 @@
-%global rc_ver 1
+#global rc_ver 2
 
 %global compiler_rt_version 13.0.1
 %global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
@@ -30,7 +30,7 @@ Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compil
 Source2:	tstellar-gpg-key.asc
 %endif
 
-Patch0: 0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
+Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -134,6 +134,15 @@ popd
 
 %changelog
 %{?llvm_snapshot_changelog_entry}
+
+* Thu Feb 03 2022 Nikita Popov <npopov@redhat.com> - 13.0.1-1
+- Update to LLVM 13.0.1 final
+
+* Wed Jan 19 2022 Fedora Release Engineering <releng@fedoraproject.org> - 13.0.1~rc2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
+* Fri Jan 14 2022 Nikita Popov <npopov@redhat.com> - 13.0.1~rc2-1
+- Update to LLVM 13.0.1rc2
 
 * Wed Jan 12 2022 Nikita Popov <npopov@redhat.com> - 13.0.1~rc1-1
 - Update to LLVM 13.0.1rc1
