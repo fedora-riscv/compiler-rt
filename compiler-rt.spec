@@ -1,3 +1,11 @@
+%bcond_without snapshot_build
+
+%if %{with snapshot_build}
+# Unlock LLVM Snapshot LUA functions
+%{llvm_sb_verbose}
+%{llvm_sb}
+%endif
+
 #global rc_ver 2
 
 %global compiler_rt_version 13.0.1
