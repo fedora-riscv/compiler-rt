@@ -1,6 +1,6 @@
 #global rc_ver 3
 
-%global compiler_rt_version 13.0.0
+%global compiler_rt_version 13.0.1
 %global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
 
 # see https://sourceware.org/bugzilla/show_bug.cgi?id=25271
@@ -21,7 +21,6 @@ Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compil
 Source2:	tstellar-gpg-key.asc
 
 Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
-Patch1:		0001-Fix-compiler-rt-arch-detection-for-ppc64le.patch
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
@@ -111,6 +110,9 @@ popd
 %endif
 
 %changelog
+* Wed Aug 03 2022 Tom Stellard <tstellar@redhat.com> - 13.0.1-1
+- 13.0.1 Release
+
 * Fri Oct 01 2021 Tom Stellard <tstellar@redhat.com> -13.0.0-1
 - 13.0.0 Release
 
