@@ -1,4 +1,4 @@
-%global compiler_rt_version 15.0.0
+%global compiler_rt_version 15.0.4
 #global rc_ver 3
 %global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -10,7 +10,7 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	NCSA or MIT
@@ -113,6 +113,9 @@ popd
 %endif
 
 %changelog
+* Wed Nov 09 2022 Nikita Popov <npopov@redhat.com> - 15.0.4-1
+- Update to LLVM 15.0.4
+
 * Tue Sep 13 2022 Nikita Popov <npopov@redhat.com> - 15.0.0-2
 - Make sure asm files are built with -fcf-protection
 
