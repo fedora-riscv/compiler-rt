@@ -1,4 +1,4 @@
-%global compiler_rt_version 15.0.4
+%global compiler_rt_version 15.0.6
 #global rc_ver 3
 %global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
 
@@ -113,6 +113,9 @@ popd
 %endif
 
 %changelog
+* Tue Dec 06 2022 Nikita Popov <npopov@redhat.com> - 15.0.6-1
+- Update to LLVM 15.0.6
+
 * Wed Nov 09 2022 Nikita Popov <npopov@redhat.com> - 15.0.4-1
 - Update to LLVM 15.0.4
 
