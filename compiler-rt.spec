@@ -6,16 +6,18 @@
 %{llvm_sb}
 %endif
 
-#global rc_ver 2
+%global toolchain clang
 
-%global compiler_rt_version 13.0.1
-%global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
+# Opt out of https://fedoraproject.org/wiki/Changes/fno-omit-frame-pointer
+# https://bugzilla.redhat.com/show_bug.cgi?id=2158587
+%undefine _include_frame_pointers
 
+%global compiler_rt_version 15.0.7
 %if %{with snapshot_build}
-%undefine rc_ver
-%global crt_srcdir compiler-rt-%{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}.src
 %global compiler_rt_version %{llvm_snapshot_version_major}.%{llvm_snapshot_version_minor}.%{llvm_snapshot_version_patch}
 %endif
+
+%global crt_srcdir compiler-rt-%{compiler_rt_version}%{?rc_ver:rc%{rc_ver}}.src
 
 # see https://sourceware.org/bugzilla/show_bug.cgi?id=25271
 %global optflags %(echo %{optflags} -D_DEFAULT_SOURCE)
@@ -25,10 +27,10 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_version_suffix:~%{llvm_snapshot_version_suffix}}
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
-License:	NCSA or MIT
+License:	Apache-2.0 WITH LLVM-exception OR NCSA OR MIT
 URL:		http://llvm.org
 %if %{with snapshot_build}
 Source0:    %{llvm_snapshot_source_prefix}compiler-rt-%{llvm_snapshot_yyyymmdd}.src.tar.xz
@@ -36,14 +38,10 @@ Source0:    %{llvm_snapshot_source_prefix}compiler-rt-%{llvm_snapshot_yyyymmdd}.
 %else
 Source0:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz
 Source1:	https://github.com/llvm/llvm-project/releases/download/llvmorg-%{compiler_rt_version}%{?rc_ver:-rc%{rc_ver}}/%{crt_srcdir}.tar.xz.sig
-Source2:	tstellar-gpg-key.asc
+Source2:	release-keys.asc
 %endif
 
-Patch0:		0001-PATCH-compiler-rt-Workaround-libstdc-limitation-wrt..patch
-Patch1:		0001-Fix-for-compiler-rt-stand-alone-builds.patch
-
-BuildRequires:	gcc
-BuildRequires:	gcc-c++
+BuildRequires:	clang
 BuildRequires:	cmake
 BuildRequires:	ninja-build
 BuildRequires:	python3
@@ -71,15 +69,12 @@ instrumentation, and Blocks C language extension.
 %py3_shebang_fix lib/hwasan/scripts/hwasan_symbolize
 
 %build
-# Test if we can default DWARF4 instead of 5
-%global optflags %(echo %{optflags} " -gdwarf-4 ")
-
-rm -rfv ../cmake
+# Copy CFLAGS into ASMFLAGS, so -fcf-protection is used when compiling assembly files.
+export ASMFLAGS=$CFLAGS
 
 %cmake	-GNinja \
 	-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-	-DLLVM_CONFIG_PATH:FILEPATH=%{_bindir}/llvm-config-%{__isa_bits} \
-	-DCMAKE_MODULE_PATH=%{_libdir}/cmake/llvm/ \
+	-DCMAKE_MODULE_PATH=%{_libdir}/cmake/llvm \
 	-DCMAKE_SKIP_RPATH:BOOL=ON \
 	\
 %if %{with snapshot_build}
@@ -145,6 +140,48 @@ popd
 
 %changelog
 %{?llvm_snapshot_changelog_entry}
+
+* Wed Feb 01 2023 Tom Stellard <tstellar@redhat.com> - 15.0.7-4
+- Omit frame pointers when building
+
+* Thu Jan 19 2023 Tulio Magno Quites Machado Filho <tuliom@redhat.com> - 15.0.7-3
+- Include the Apache license adopted in 2019.
+
+* Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 15.0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
+
+* Fri Jan 13 2023 Nikita Popov <npopov@redhat.com> - 15.0.7-1
+- Update to LLVM 15.0.7
+
+* Thu Dec 15 2022 Nikita Popov <npopov@redhat.com> - 15.0.6-2
+- Remove ppc64le ieeelongdouble workaround
+
+* Tue Dec 06 2022 Nikita Popov <npopov@redhat.com> - 15.0.6-1
+- Update to LLVM 15.0.6
+
+* Mon Nov 07 2022 Nikita Popov <npopov@redhat.com> - 15.0.4-1
+- Update to LLVM 15.0.4
+
+* Fri Sep 23 2022 Nikita Popov <npopov@redhat.com> - 15.0.0-3
+- Switch to building with clang
+
+* Tue Sep 13 2022 Nikita Popov <npopov@redhat.com> - 15.0.0-2
+- Make sure asm files are built with -fcf-protection
+
+* Tue Sep 06 2022 Nikita Popov <npopov@redhat.com> - 15.0.0-1
+- Update to LLVM 15.0.0
+
+* Wed Jul 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 14.0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
+* Mon Jun 20 2022 Timm Bäder <tbaeder@redhat.com> - 14.0.5-1
+- Update to 14.0.5
+
+* Fri Apr 29 2022 Timm Bäder <tbaeder@redhat.com> - 14.0.0-2
+- Remove llvm-cmake-devel BR
+
+* Thu Mar 24 2022 Timm Bäder <tbaeder@redhat.com> - 14.0.0-1
+- Update to 14.0.0
 
 * Thu Feb 03 2022 Nikita Popov <npopov@redhat.com> - 13.0.1-1
 - Update to LLVM 13.0.1 final
