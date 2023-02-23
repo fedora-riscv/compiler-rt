@@ -102,7 +102,9 @@ mv -v %{buildroot}%{_datadir}/*list.txt  %{buildroot}%{_libdir}/clang/%{compiler
 %global libclang_rt_installdir lib/linux
 mkdir -p %{buildroot}%{_libdir}/clang/%{compiler_rt_version}/lib
 mv -v %{buildroot}%{_prefix}/%{libclang_rt_installdir}/*clang_rt* %{buildroot}%{_libdir}/clang/%{compiler_rt_version}/lib
+%ifnarch %{ix86}
 mv -v %{buildroot}%{_prefix}/%{libclang_rt_installdir}/liborc_rt* %{buildroot}%{_libdir}/clang/%{compiler_rt_version}/lib
+%endif
 mkdir -p %{buildroot}%{_libdir}/clang/%{compiler_rt_version}/lib/linux/
 pushd %{buildroot}%{_libdir}/clang/%{compiler_rt_version}/lib
 for i in *.a *.so
