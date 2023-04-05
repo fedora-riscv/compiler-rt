@@ -21,7 +21,7 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}
-Release:	1%{?dist}
+Release:	1.rv64%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	Apache-2.0 WITH LLVM-exception OR NCSA OR MIT
@@ -125,11 +125,14 @@ popd
 %{_includedir}/*
 %{_libdir}/clang/%{maj_ver}/lib/*
 %{_libdir}/clang/%{maj_ver}/share/*
-%ifarch x86_64 aarch64
+%ifarch x86_64 aarch64 riscv64
 %{_bindir}/hwasan_symbolize
 %endif
 
 %changelog
+* Wed Apr 05 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 16.0.0-1.rv64
+- Fix build on riscv64.
+
 * Tue Mar 21 2023 Tulio Magno Quites Machado Filho <tuliom@redhat.com> - 16.0.0-1
 - Update to LLVM 16.0.0
 
