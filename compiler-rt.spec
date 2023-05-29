@@ -34,7 +34,7 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_version_suffix:~%{llvm_snapshot_version_suffix}}
-Release:	1%{?dist}
+Release:	1.rv64%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	Apache-2.0 WITH LLVM-exception OR NCSA OR MIT
@@ -118,7 +118,7 @@ mv %{buildroot}%{_prefix}/lib/clang/%{maj_ver}/lib/powerpc64le-redhat-linux-gnu 
 
 %files
 %license LICENSE.TXT
-%ifarch x86_64 aarch64
+%ifarch x86_64 aarch64 riscv64
 %{_prefix}/lib/clang/%{maj_ver}/bin/*
 %endif
 %{_prefix}/lib/clang/%{maj_ver}/include/*
@@ -130,6 +130,9 @@ mv %{buildroot}%{_prefix}/lib/clang/%{maj_ver}/lib/powerpc64le-redhat-linux-gnu 
 
 %changelog
 %{?llvm_snapshot_changelog_entry}
+
+* Tue Nov 14 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 17.0.3-1.rv64
+- Fix build on riscv64.
 
 * Wed Oct 18 2023 Tulio Magno Quites Machado Filho <tuliom@redhat.com> - 17.0.3-1
 - Update to LLVM 17.0.3
