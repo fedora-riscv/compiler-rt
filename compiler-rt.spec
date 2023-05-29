@@ -21,7 +21,7 @@
 
 Name:		compiler-rt
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}
-Release:	2%{?dist}
+Release:	2.rv64%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	Apache-2.0 WITH LLVM-exception OR NCSA OR MIT
@@ -127,11 +127,14 @@ popd
 %{_includedir}/*
 %{_libdir}/clang/%{maj_ver}/lib/*
 %{_libdir}/clang/%{maj_ver}/share/*
-%ifarch x86_64 aarch64
+%ifarch x86_64 aarch64 riscv64
 %{_bindir}/hwasan_symbolize
 %endif
 
 %changelog
+* Wed Sep 13 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 16.0.6-2.rv64
+- Fix build on riscv64.
+
 * Tue Aug 29 2023 Tom Stellard <tstellar@redhat.com> - 16.0.6-2
 - Fix FLOAT16 detection
 
