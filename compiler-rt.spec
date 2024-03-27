@@ -42,7 +42,7 @@
 
 Name:		%{pkg_name}
 Version:	%{compiler_rt_version}%{?rc_ver:~rc%{rc_ver}}%{?llvm_snapshot_version_suffix:~%{llvm_snapshot_version_suffix}}
-Release:	1%{?dist}
+Release:	1.rv64%{?dist}
 Summary:	LLVM "compiler-rt" runtime libraries
 
 License:	Apache-2.0 WITH LLVM-exception OR NCSA OR MIT
@@ -134,7 +134,7 @@ ln -s i386-redhat-linux-gnu %{buildroot}%{_prefix}/lib/clang/%{maj_ver}/lib/%{_t
 
 %files
 %license LICENSE.TXT
-%ifarch x86_64 aarch64
+%ifarch x86_64 aarch64 riscv64
 %{_prefix}/lib/clang/%{maj_ver}/bin/*
 %endif
 %{_prefix}/lib/clang/%{maj_ver}/include/*
